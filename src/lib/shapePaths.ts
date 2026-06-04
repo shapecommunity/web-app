@@ -1,5 +1,6 @@
 export type MorphShapeName =
   | 'button'
+  | 'buttonSlim'
   | 'square'
   | 'circle'
   | 'squircle'
@@ -35,6 +36,7 @@ export const morphShapes: MorphShapeName[] = [
 
 export const textMorphShapes: MorphShapeName[] = [
   'button',
+  'buttonSlim',
   'square',
   'circle',
   'squircle',
@@ -42,8 +44,6 @@ export const textMorphShapes: MorphShapeName[] = [
   'octagon',
   'diamond',
   'hexagon',
-  'heart',
-  'star',
 ]
 
 export const expressiveMorphShapes: MorphShapeName[] = morphShapes
@@ -51,6 +51,8 @@ export const expressiveMorphShapes: MorphShapeName[] = morphShapes
 export const morphShapePaths: Record<MorphShapeName, string> = {
   button:
     'M10 28C10 18.0589 18.0589 10 28 10H72C81.9411 10 90 18.0589 90 28V72C90 81.9411 81.9411 90 72 90H28C18.0589 90 10 81.9411 10 72V28Z',
+  buttonSlim:
+    'M10 34C10 25.1634 17.1634 18 26 18H74C82.8366 18 90 25.1634 90 34V66C90 74.8366 82.8366 82 74 82H26C17.1634 82 10 74.8366 10 66V34Z',
   square: 'M14 14H86V86H14Z',
   circle:
     'M50 10C72.0914 10 90 27.9086 90 50C90 72.0914 72.0914 90 50 90C27.9086 90 10 72.0914 10 50C10 27.9086 27.9086 10 50 10Z',

@@ -81,8 +81,8 @@ function HomePage() {
             previewing future compatibility tests, and growing into a playful public catalogue.
           </p>
           <div className="shape-button-row">
-            <ShapeMorphButton to="/shapes" label="Shapes" accent="yellow" />
-            <ShapeMorphButton to="/shapes/cube" label="Demo" accent="blue" />
+            <ShapeMorphButton to="/shapes" label="Shapes" accent="yellow" defaultShape="buttonSlim" />
+            <ShapeMorphButton to="/shapes/cube" label="Demo" accent="blue" defaultShape="buttonSlim" />
           </div>
         </div>
         <aside className="hero-lab-column">

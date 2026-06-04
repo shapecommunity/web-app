@@ -1,12 +1,13 @@
 import { Link, NavLink } from 'react-router-dom'
 import { MorphShape } from './MorphShape'
 import { useShapeMorph } from '../hooks/useShapeMorph'
-import { textMorphShapes } from '../lib/shapePaths'
+import { textMorphShapes, type MorphShapeName } from '../lib/shapePaths'
 
 type ShapeMorphButtonProps = {
   to: string
   label: string
   accent: string
+  defaultShape?: MorphShapeName
 }
 
 type ShapeMorphNavLinkProps = ShapeMorphButtonProps & {
@@ -22,8 +23,11 @@ function ShapeButtonContent({ label, accent, path }: { label: string; accent: st
   )
 }
 
-export function ShapeMorphButton({ to, label, accent }: ShapeMorphButtonProps) {
-  const { path, animateRandom, animateToDefault } = useShapeMorph({ shapePool: textMorphShapes })
+export function ShapeMorphButton({ to, label, accent, defaultShape }: ShapeMorphButtonProps) {
+  const { path, animateRandom, animateToDefault } = useShapeMorph({
+    defaultShape,
+    shapePool: textMorphShapes,
+  })
 
   return (
     <Link
@@ -39,8 +43,12 @@ export function ShapeMorphButton({ to, label, accent }: ShapeMorphButtonProps) {
   )
 }
 
-export function ShapeMorphNavLink({ to, label, accent, end = false }: ShapeMorphNavLinkProps) {
-  const { path, animateRandom, animateToDefault } = useShapeMorph({ shapePool: textMorphShapes, durationMs: 200 })
+export function ShapeMorphNavLink({ to, label, accent, end = false, defaultShape }: ShapeMorphNavLinkProps) {
+  const { path, animateRandom, animateToDefault } = useShapeMorph({
+    defaultShape,
+    shapePool: textMorphShapes,
+    durationMs: 200,
+  })
 
   return (
     <NavLink
