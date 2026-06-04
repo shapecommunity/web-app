@@ -248,8 +248,12 @@ h3 {
   display: inline-flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: var(--space-1);
-  padding: 8px;
+  gap: 4px;
+  padding: 2px;
+}
+
+.site-nav.glass-panel {
+  padding: 0;
 }
 
 .site-nav a {
@@ -388,7 +392,17 @@ p {
 }
 
 .shape-button-nav {
-  width: 5rem;
+  width: 4.25rem;
+}
+
+.shape-button-nav.is-active {
+  transform: scale(1.06);
+  box-shadow: 0 10px 24px color-mix(in srgb, var(--accent-color) 32%, transparent);
+}
+
+.shape-button-nav.is-active:hover,
+.shape-button-nav.is-active:focus-visible {
+  transform: scale(1.08) translateY(-1px);
 }
 
 .shape-button:hover,
@@ -709,7 +723,7 @@ p {
 
   .shape-button-nav {
     width: 100%;
-    max-width: 6rem;
+    max-width: 5rem;
   }
 
   .viewer-stage {

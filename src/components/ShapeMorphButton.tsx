@@ -77,7 +77,9 @@ export function ShapeMorphNavLink({ to, label, accent, end = false, defaultShape
     <NavLink
       to={to}
       end={end}
-      className={`shape-button shape-button-nav accent-${accent}`}
+      className={({ isActive }) =>
+        `shape-button shape-button-nav accent-${accent}${isActive ? ' is-active' : ''}`
+      }
       onPointerEnter={handleEnter}
       onPointerLeave={handleLeave}
       onFocus={handleEnter}
