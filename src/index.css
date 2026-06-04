@@ -427,12 +427,12 @@ p {
   z-index: 1;
   width: 72%;
   text-align: center;
-  color: #111111;
-  font-family: 'Fredoka', ui-rounded, system-ui, sans-serif;
-  font-size: clamp(1rem, 2vw, 1.2rem);
-  font-weight: 600;
-  line-height: 0.95;
-  letter-spacing: -0.03em;
+  color: #fffdf8;
+  font-family: 'Nunito Sans', ui-sans-serif, system-ui, sans-serif;
+  font-size: clamp(0.96rem, 1.8vw, 1.08rem);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.01em;
 }
 
 .metric-grid {
