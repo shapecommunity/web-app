@@ -6,16 +6,10 @@ import { ShapeCard } from './components/ShapeCard'
 import { Pagination } from './components/Pagination'
 import { getShapeBySlug, shapes, type ShapeRecord } from './data/shapes'
 import { useShapeMorph } from './hooks/useShapeMorph'
-import { expressiveMorphShapes, getRandomAccent, type AccentName } from './lib/shapePaths'
-
-type ShapeName = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'rounded'
+import { expressiveMorphShapes, getRandomAccent, morphShapePaths, type AccentName } from './lib/shapePaths'
 
 function randomAccent() {
   return getRandomAccent()
-}
-
-function ShapeGlyph({ shape, accent, className = '' }: { shape: ShapeName; accent: string; className?: string }) {
-  return <span aria-hidden="true" className={`shape-glyph shape-${shape} accent-${accent} ${className}`.trim()} />
 }
 
 function AccentHeading({ children, accent, level = 1 }: { children: ReactNode; accent: string; level?: 1 | 2 | 3 }) {
@@ -245,9 +239,7 @@ function ShapeDetailPage() {
           <AccentHeading accent="purple">{shape.name}</AccentHeading>
           <p className="lead-copy">{shape.description}</p>
           <div className="viewer-placeholder">
-            <ShapeGlyph shape={shape.previewShape} accent={shape.previewAccent} className="stage-shape stage-shape-large" />
-            <ShapeGlyph shape="triangle" accent="blue" className="stage-shape stage-shape-top" />
-            <ShapeGlyph shape="circle" accent="red" className="stage-shape stage-shape-bottom" />
+            <MorphShape path={morphShapePaths[shape.previewShape]} accent={shape.previewAccent} className="stage-shape stage-shape-large" />
           </div>
         </article>
 

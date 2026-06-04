@@ -1,4 +1,4 @@
-export type PreviewShape = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'rounded'
+import type { AccentName, MorphShapeName } from '../lib/shapePaths'
 
 export type ShapeRecord = {
   slug: string
@@ -6,8 +6,8 @@ export type ShapeRecord = {
   geometry: string
   material: string
   color: string
-  previewShape: PreviewShape
-  previewAccent: 'red' | 'yellow' | 'blue' | 'green' | 'purple' | 'orange'
+  previewShape: MorphShapeName
+  previewAccent: AccentName
   shortDescription: string
   description: string
   tags: string[]
@@ -97,7 +97,7 @@ export const shapes: ShapeRecord[] = [
     geometry: 'Rounded rectangle',
     material: 'Matte ABS',
     color: 'Leaf green',
-    previewShape: 'rounded',
+    previewShape: 'squircle',
     previewAccent: 'green',
     shortDescription: 'Rounded-rectangle body with soft corners and stable proportions.',
     description:
@@ -187,7 +187,7 @@ export const shapes: ShapeRecord[] = [
     geometry: 'Capsule block',
     material: 'Matte composite',
     color: 'Playful purple',
-    previewShape: 'rounded',
+    previewShape: 'squircle',
     previewAccent: 'purple',
     shortDescription: 'Long capsule profile that reads almost like a button block.',
     description:

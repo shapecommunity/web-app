@@ -369,14 +369,18 @@ p {
   display: grid;
   gap: 10px;
   max-width: 32rem;
+  padding: 14px;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-sm);
+  background: #f3efe8;
 }
 
 .discover-search {
   width: 100%;
   padding: 14px 16px;
-  border: 1px solid var(--panel-border);
+  border: 1px solid #d9d0c3;
   border-radius: var(--radius-sm);
-  background: #ffffff;
+  background: #fbf8f3;
   color: #111111;
   font: inherit;
 }
@@ -423,7 +427,7 @@ p {
 }
 
 .shape-button-nav {
-  width: 4.25rem;
+  width: 8.5rem;
 }
 
 .shape-button-pagination {
@@ -520,8 +524,8 @@ p {
 }
 
 .shape-card-preview {
-  width: 5.75rem;
-  height: 5.75rem;
+  width: 7.75rem;
+  height: 7.75rem;
 }
 
 .shape-card-copy {
@@ -623,6 +627,8 @@ p {
     linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.34)),
     linear-gradient(135deg, rgba(255, 212, 0, 0.13), rgba(22, 119, 255, 0.08));
   border: 1px solid rgba(255, 255, 255, 0.7);
+  display: grid;
+  place-items: center;
 }
 
 .stage-shape {
@@ -632,23 +638,9 @@ p {
 .stage-shape-large {
   left: 50%;
   top: 50%;
-  width: 9rem;
-  height: 9rem;
+  width: 13rem;
+  height: 13rem;
   transform: translate(-50%, -50%);
-}
-
-.stage-shape-top {
-  top: 18%;
-  left: 18%;
-  width: 3rem;
-  height: 3rem;
-}
-
-.stage-shape-bottom {
-  right: 15%;
-  bottom: 16%;
-  width: 3.6rem;
-  height: 3.6rem;
 }
 
 .spec-list {
@@ -836,7 +828,7 @@ p {
 
   .shape-button-nav {
     width: 100%;
-    max-width: 5rem;
+    max-width: 8.5rem;
   }
 
   .pagination,
