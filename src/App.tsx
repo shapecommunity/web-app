@@ -262,13 +262,12 @@ function AppShell() {
   return (
     <div className="app-shell">
       <header className="site-header">
-        <Link className="brand-lockup glass-panel" to="/">
+        <Link className="brand-lockup" to="/">
           <span className="brand-mark-wrap">
             <MorphShape path={brandPath} accent={brandAccent} className="brand-mark-shape" />
           </span>
           <span className="brand-copy">
-            <strong>Shape Community App</strong>
-            <span>Digital toy museum + compatibility lab</span>
+            <strong>Shape Community</strong>
           </span>
         </Link>
 
