@@ -6,6 +6,7 @@
 ![Vite Build](https://img.shields.io/badge/Vite-Build%20Tool-646CFF?logo=vite&logoColor=fff)
 ![pnpm](https://img.shields.io/badge/pnpm-F69220?logo=pnpm&logoColor=fff)
 ![Node 24](https://img.shields.io/badge/Node-24-5FA04E?logo=nodedotjs&logoColor=fff)
+[![Discord](https://img.shields.io/badge/Discord-Join%20the%20server-5865F2?logo=discord&logoColor=fff)](https://discord.gg/zfqEdgbU2V)
 
 Shape Community App is a public frontend for browsing geometric toy shapes, exploring individual shape pages, and later adding compatibility testing, 3D previews, and live activity signals.
 
