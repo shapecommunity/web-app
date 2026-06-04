@@ -14,7 +14,7 @@ export type MorphShapeName =
   | 'clover'
   | 'burst'
 
-export const defaultMorphShape: MorphShapeName = 'button'
+export const defaultMorphShape: MorphShapeName = 'pill'
 
 export const morphShapes: MorphShapeName[] = [
   'button',
@@ -40,6 +40,10 @@ export const textMorphShapes: MorphShapeName[] = [
   'squircle',
   'pill',
   'octagon',
+  'diamond',
+  'hexagon',
+  'heart',
+  'star',
 ]
 
 export const expressiveMorphShapes: MorphShapeName[] = morphShapes
@@ -61,7 +65,7 @@ export const morphShapePaths: Record<MorphShapeName, string> = {
   heart:
     'M50 88C46.5 83.9 42.3 80.4 37.9 76.9C20.5 63 8 50.8 8 33.5C8 19.2 19.2 8 33.5 8C41.6 8 47.8 11.7 50 17.5C52.2 11.7 58.4 8 66.5 8C80.8 8 92 19.2 92 33.5C92 50.8 79.5 63 62.1 76.9C57.7 80.4 53.5 83.9 50 88Z',
   pill:
-    'M22 16H78C85.732 16 92 22.268 92 30V70C92 77.732 85.732 84 78 84H22C14.268 84 8 77.732 8 70V30C8 22.268 14.268 16 22 16Z',
+    'M18 18H82C87.5228 18 92 22.4772 92 28V72C92 77.5228 87.5228 82 82 82H18C12.4772 82 8 77.5228 8 72V28C8 22.4772 12.4772 18 18 18Z',
   arch:
     'M18 90V42C18 23.2223 32.9985 8 50 8C67.0015 8 82 23.2223 82 42V90Z',
   clover:
