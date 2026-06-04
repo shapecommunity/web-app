@@ -365,6 +365,32 @@ p {
   font-size: 1.08rem;
 }
 
+.search-panel {
+  display: grid;
+  gap: 10px;
+  max-width: 32rem;
+}
+
+.discover-search {
+  width: 100%;
+  padding: 14px 16px;
+  border: 1px solid var(--panel-border);
+  border-radius: var(--radius-sm);
+  background: #ffffff;
+  color: #111111;
+  font: inherit;
+}
+
+.discover-search::placeholder {
+  color: #6d6d6d;
+}
+
+.discover-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--space-3);
+}
+
 .shape-button-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -381,9 +407,14 @@ p {
   place-items: center;
   width: 100%;
   aspect-ratio: 1;
+  padding: 0;
+  border: 0;
+  background: transparent;
   border-radius: var(--radius-md);
   text-decoration: none;
   color: #111111;
+  font: inherit;
+  cursor: pointer;
   overflow: visible;
 }
 
@@ -393,6 +424,15 @@ p {
 
 .shape-button-nav {
   width: 4.25rem;
+}
+
+.shape-button-pagination {
+  width: 4.75rem;
+}
+
+.shape-button-pagination.is-active {
+  transform: scale(1.04);
+  box-shadow: 0 8px 18px color-mix(in srgb, var(--accent-color) 28%, transparent);
 }
 
 .shape-button-nav.is-active {
@@ -409,6 +449,11 @@ p {
 .shape-button:focus-visible {
   transform: translateY(-1px);
   box-shadow: 0 18px 34px rgba(180, 133, 74, 0.14);
+}
+
+.shape-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.45;
 }
 
 .morph-shape {
@@ -454,6 +499,69 @@ p {
   gap: 12px;
 }
 
+.shape-card {
+  display: grid;
+  gap: var(--space-2);
+  color: inherit;
+  text-decoration: none;
+}
+
+.shape-card:hover {
+  transform: translateY(-2px);
+}
+
+.shape-card-preview-wrap {
+  min-height: 10rem;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: #f7f5f0;
+  border: 1px solid var(--panel-border);
+}
+
+.shape-card-preview {
+  width: 5.75rem;
+  height: 5.75rem;
+}
+
+.shape-card-copy {
+  display: grid;
+  gap: 8px;
+}
+
+.shape-card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.shape-card-meta span {
+  padding: 6px 10px;
+  border: 1px solid var(--panel-border);
+  border-radius: 999px;
+  font-size: 0.84rem;
+}
+
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pagination-pages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.empty-state {
+  display: grid;
+  gap: 12px;
+}
+
 .metric-chip {
   display: flex;
   align-items: center;
@@ -482,6 +590,10 @@ p {
 
 .card-grid.two-up {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.card-grid.three-up {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .status-card,
@@ -685,6 +797,7 @@ p {
   .hero-shell,
   .shape-layout,
   .shape-button-row,
+  .discover-grid,
   .card-grid,
   .card-grid.two-up {
     grid-template-columns: 1fr;
@@ -724,6 +837,11 @@ p {
   .shape-button-nav {
     width: 100%;
     max-width: 5rem;
+  }
+
+  .pagination,
+  .pagination-pages {
+    justify-content: center;
   }
 
   .viewer-stage {
