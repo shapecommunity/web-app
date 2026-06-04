@@ -15,6 +15,8 @@ export type MorphShapeName =
   | 'clover'
   | 'burst'
 
+export type AccentName = 'red' | 'yellow' | 'blue' | 'green' | 'purple' | 'orange'
+
 export const defaultMorphShape: MorphShapeName = 'pill'
 
 export const morphShapes: MorphShapeName[] = [
@@ -48,6 +50,17 @@ export const textMorphShapes: MorphShapeName[] = [
 
 export const expressiveMorphShapes: MorphShapeName[] = morphShapes
 
+export const accentNames: AccentName[] = ['red', 'yellow', 'blue', 'green', 'purple', 'orange']
+
+export const accentGradientStops: Record<AccentName, { start: string; end: string }> = {
+  red: { start: '#ff2d2d', end: '#ff2d2d' },
+  yellow: { start: '#ffd400', end: '#ffd400' },
+  blue: { start: '#1677ff', end: '#1677ff' },
+  green: { start: '#18c964', end: '#18c964' },
+  purple: { start: '#7c3aed', end: '#7c3aed' },
+  orange: { start: '#ff7a00', end: '#ff7a00' },
+}
+
 export const morphShapePaths: Record<MorphShapeName, string> = {
   button:
     'M10 28C10 18.0589 18.0589 10 28 10H72C81.9411 10 90 18.0589 90 28V72C90 81.9411 81.9411 90 72 90H28C18.0589 90 10 81.9411 10 72V28Z',
@@ -79,4 +92,9 @@ export const morphShapePaths: Record<MorphShapeName, string> = {
 export function getRandomMorphShape(pool: MorphShapeName[] = morphShapes, exclude: MorphShapeName[] = []) {
   const candidates = pool.filter((shape) => !exclude.includes(shape))
   return candidates[Math.floor(Math.random() * candidates.length)] ?? defaultMorphShape
+}
+
+export function getRandomAccent(exclude: AccentName[] = []) {
+  const candidates = accentNames.filter((accent) => !exclude.includes(accent))
+  return candidates[Math.floor(Math.random() * candidates.length)] ?? accentNames[0]
 }

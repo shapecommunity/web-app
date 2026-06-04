@@ -419,10 +419,13 @@ p {
 
 .shape-button-surface path,
 .morph-shape path {
-  fill: color-mix(in srgb, var(--accent-color) 54%, white);
   stroke: rgba(255, 255, 255, 0.92);
   stroke-width: 2.5;
   stroke-linejoin: round;
+}
+
+.morph-gradient-stop {
+  transition: stop-color 240ms ease-in-out;
 }
 
 .shape-button-label {

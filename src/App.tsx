@@ -3,14 +3,12 @@ import { Link, Route, Routes, useParams } from 'react-router-dom'
 import { ShapeMorphButton, ShapeMorphNavLink } from './components/ShapeMorphButton'
 import { MorphShape } from './components/MorphShape'
 import { useShapeMorph } from './hooks/useShapeMorph'
-import { expressiveMorphShapes } from './lib/shapePaths'
+import { expressiveMorphShapes, getRandomAccent, type AccentName } from './lib/shapePaths'
 
 type ShapeName = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'rounded'
 
-const accentSequence = ['red', 'yellow', 'blue', 'green', 'purple', 'orange'] as const
-
 function randomAccent() {
-  return accentSequence[Math.floor(Math.random() * accentSequence.length)]
+  return getRandomAccent()
 }
 
 function ShapeGlyph({ shape, accent, className = '' }: { shape: ShapeName; accent: string; className?: string }) {
@@ -244,7 +242,7 @@ function NotFoundPage() {
 }
 
 function AppShell() {
-  const [brandAccent] = useState<string>(randomAccent)
+  const [brandAccent, setBrandAccent] = useState<AccentName>(randomAccent)
   const { path: brandPath, animateRandom: animateBrandRandom } = useShapeMorph({
     shapePool: expressiveMorphShapes,
     durationMs: 260,
@@ -252,6 +250,7 @@ function AppShell() {
 
   useEffect(() => {
     const intervalId = window.setInterval(() => {
+      setBrandAccent((currentAccent) => getRandomAccent([currentAccent]))
       animateBrandRandom()
     }, 3000)
 
