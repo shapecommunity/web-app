@@ -1,5 +1,5 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react'
-import { Link, Route, Routes, useParams } from 'react-router-dom'
+import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
+import { Link, Route, Routes, useLocation, useParams } from 'react-router-dom'
 import { ShapeMorphButton, ShapeMorphNavLink } from './components/ShapeMorphButton'
 import { MorphShape } from './components/MorphShape'
 import { ShapeCard } from './components/ShapeCard'
@@ -86,6 +86,16 @@ function ShapeMetaList({ shape }: { shape: ShapeRecord }) {
   )
 }
 
+function ScrollToTop() {
+  const { pathname } = useLocation()
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+  }, [pathname])
+
+  return null
+}
+
 function HomePage() {
   return (
     <section className="page-stack">
@@ -144,11 +154,17 @@ function HomePage() {
 function ShapesPage() {
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
+  const [isMobile, setIsMobile] = useState(() =>
+    typeof window !== 'undefined' ? window.matchMedia('(max-width: 680px)').matches : false,
+  )
+  const [visibleCount, setVisibleCount] = useState(6)
   const pageSize = 6
+  const sentinelRef = useRef<HTMLDivElement | null>(null)
 
   function handleQueryChange(nextQuery: string) {
     setQuery(nextQuery)
     setPage(1)
+    setVisibleCount(pageSize)
   }
 
   const filteredShapes = useMemo(() => {
@@ -166,7 +182,48 @@ function ShapesPage() {
 
   const totalPages = Math.max(1, Math.ceil(filteredShapes.length / pageSize))
   const currentPage = Math.min(page, totalPages)
-  const visibleShapes = filteredShapes.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+  const visibleShapes = isMobile
+    ? filteredShapes.slice(0, visibleCount)
+    : filteredShapes.slice((currentPage - 1) * pageSize, currentPage * pageSize)
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(max-width: 680px)')
+
+    function handleChange(event: MediaQueryListEvent) {
+      setIsMobile(event.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+
+    return () => {
+      mediaQuery.removeEventListener('change', handleChange)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (!isMobile || !sentinelRef.current || visibleCount >= filteredShapes.length) {
+      return
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const firstEntry = entries[0]
+
+        if (!firstEntry?.isIntersecting) {
+          return
+        }
+
+        setVisibleCount((currentCount) => Math.min(currentCount + pageSize, filteredShapes.length))
+      },
+      { rootMargin: '160px 0px' },
+    )
+
+    observer.observe(sentinelRef.current)
+
+    return () => {
+      observer.disconnect()
+    }
+  }, [filteredShapes.length, isMobile, visibleCount])
 
   return (
     <section className="page-stack">
@@ -196,7 +253,11 @@ function ShapesPage() {
               <ShapeCard key={shape.slug} shape={shape} />
             ))}
           </section>
-          <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setPage} />
+          {isMobile ? (
+            visibleCount < filteredShapes.length ? <div ref={sentinelRef} className="discover-sentinel" aria-hidden="true" /> : null
+          ) : (
+            <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={setPage} />
+          )}
         </>
       ) : (
         <section className="glass-panel empty-state">
@@ -236,7 +297,7 @@ function ShapeDetailPage() {
             <SectionLabel>Preview</SectionLabel>
             <span className="mono-label">{shape.geometry}</span>
           </div>
-          <AccentHeading accent="purple">{shape.name}</AccentHeading>
+          <AccentHeading accent={shape.previewAccent}>{shape.name}</AccentHeading>
           <p className="lead-copy">{shape.description}</p>
           <div className="viewer-placeholder">
             <MorphShape path={morphShapePaths[shape.previewShape]} accent={shape.previewAccent} className="stage-shape stage-shape-large" />
@@ -343,6 +404,7 @@ function AppShell() {
 
   return (
     <div className="app-shell">
+      <ScrollToTop />
       <header className="site-header">
         <Link className="brand-lockup" to="/">
           <span className="brand-mark-wrap">

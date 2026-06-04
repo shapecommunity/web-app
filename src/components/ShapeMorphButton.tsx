@@ -46,6 +46,7 @@ export function ShapeMorphButton({ to, label, accent, defaultShape }: ShapeMorph
       className={`shape-button shape-button-hero accent-${accent}`}
       to={to}
       onPointerEnter={handleEnter}
+      onPointerDown={handleEnter}
       onPointerLeave={handleLeave}
       onFocus={handleEnter}
       onBlur={handleLeave}
@@ -81,6 +82,7 @@ export function ShapeMorphNavLink({ to, label, accent, end = false, defaultShape
         `shape-button shape-button-nav accent-${accent}${isActive ? ' is-active' : ''}`
       }
       onPointerEnter={handleEnter}
+      onPointerDown={handleEnter}
       onPointerLeave={handleLeave}
       onFocus={handleEnter}
       onBlur={handleLeave}

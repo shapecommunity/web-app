@@ -41,6 +41,7 @@ function PaginationButton({ label, accent, isActive = false, isDisabled = false,
       className={`shape-button shape-button-pagination accent-${accent}${isActive ? ' is-active' : ''}`}
       onClick={onClick}
       onPointerEnter={handleEnter}
+      onPointerDown={handleEnter}
       onPointerLeave={handleLeave}
       onFocus={handleEnter}
       onBlur={handleLeave}
