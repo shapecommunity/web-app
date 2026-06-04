@@ -1,15 +1,13 @@
-import { useState, type ReactNode } from 'react'
-import { Link, NavLink, Route, Routes, useParams } from 'react-router-dom'
-import { ShapeMorphButton } from './components/ShapeMorphButton'
+import { useEffect, useState, type ReactNode } from 'react'
+import { Link, Route, Routes, useParams } from 'react-router-dom'
+import { ShapeMorphButton, ShapeMorphNavLink } from './components/ShapeMorphButton'
+import { MorphShape } from './components/MorphShape'
+import { useShapeMorph } from './hooks/useShapeMorph'
+import { expressiveMorphShapes } from './lib/shapePaths'
 
 type ShapeName = 'circle' | 'square' | 'triangle' | 'star' | 'heart' | 'rounded'
 
-const shapeSequence: ShapeName[] = ['circle', 'square', 'triangle', 'star', 'heart', 'rounded']
 const accentSequence = ['red', 'yellow', 'blue', 'green', 'purple', 'orange'] as const
-
-function randomShape() {
-  return shapeSequence[Math.floor(Math.random() * shapeSequence.length)]
-}
 
 function randomAccent() {
   return accentSequence[Math.floor(Math.random() * accentSequence.length)]
@@ -22,6 +20,20 @@ function ShapeGlyph({ shape, accent, className = '' }: { shape: ShapeName; accen
       className={`shape-glyph shape-${shape} accent-${accent} ${className}`.trim()}
     />
   )
+}
+
+function AccentHeading({ children, accent, level = 1 }: { children: ReactNode; accent: string; level?: 1 | 2 | 3 }) {
+  const className = `accent-heading accent-heading-${accent}`
+
+  if (level === 2) {
+    return <h2 className={className}>{children}</h2>
+  }
+
+  if (level === 3) {
+    return <h3 className={className}>{children}</h3>
+  }
+
+  return <h1 className={className}>{children}</h1>
 }
 
 function SectionLabel({ children }: { children: ReactNode }) {
@@ -63,26 +75,14 @@ function HomePage() {
       <section className="hero-shell">
         <div className="hero-copy-block glass-panel accent-yellow">
           <SectionLabel>Digital toy museum + compatibility lab</SectionLabel>
-          <h1>Shape Community App</h1>
+          <AccentHeading accent="blue">Shape Community App</AccentHeading>
           <p className="lead-copy">
             A bright, glassy frontend shell for exploring geometric toy shapes,
             previewing future compatibility tests, and growing into a playful public catalogue.
           </p>
-          <div className="morph-action-row">
-            <ShapeMorphButton
-              to="/shapes"
-              label="Open"
-              title="Browse shapes"
-              detail="Square button morphs smoothly on hover, then returns to its default rounded form on leave."
-              accent="yellow"
-            />
-            <ShapeMorphButton
-              to="/shapes/cube"
-              label="Demo"
-              title="Open sample page"
-              detail="Use the first shape route as the place to test the eventual viewer, metadata, and fit states."
-              accent="blue"
-            />
+          <div className="shape-button-row">
+            <ShapeMorphButton to="/shapes" label="Shapes" accent="yellow" />
+            <ShapeMorphButton to="/shapes/cube" label="Demo" accent="blue" />
           </div>
         </div>
         <aside className="hero-lab-column">
@@ -132,7 +132,7 @@ function ShapesPage() {
     <section className="page-stack">
       <section className="glass-panel page-hero accent-blue">
         <SectionLabel>Catalogue shell</SectionLabel>
-        <h1>Shapes</h1>
+        <AccentHeading accent="orange">Shapes</AccentHeading>
         <p className="lead-copy">
           This route is prepared for the first static catalogue milestone with room for bright shape cards, preview tiles, and metadata labels.
         </p>
@@ -230,25 +230,13 @@ function NotFoundPage() {
     <section className="page-stack">
       <section className="glass-panel page-hero accent-red">
         <SectionLabel>404</SectionLabel>
-        <h1>Shape not found</h1>
+        <AccentHeading accent="red">Shape not found</AccentHeading>
         <p className="lead-copy">
           This route is outside the current shell. Head back to the main museum view or open the catalogue placeholder.
         </p>
-        <div className="morph-action-row morph-action-row-compact">
-          <ShapeMorphButton
-            to="/"
-            label="Home"
-            title="Return home"
-            detail="Go back to the main museum shell."
-            accent="yellow"
-          />
-          <ShapeMorphButton
-            to="/shapes"
-            label="Open"
-            title="Open shapes"
-            detail="Jump to the catalogue placeholder."
-            accent="red"
-          />
+        <div className="shape-button-row shape-button-row-compact">
+          <ShapeMorphButton to="/" label="Home" accent="yellow" />
+          <ShapeMorphButton to="/shapes" label="Shapes" accent="red" />
         </div>
       </section>
     </section>
@@ -256,18 +244,28 @@ function NotFoundPage() {
 }
 
 function AppShell() {
-  const [brandShape] = useState<ShapeName>(randomShape)
   const [brandAccent] = useState<string>(randomAccent)
+  const { path: brandPath, animateRandom: animateBrandRandom } = useShapeMorph({
+    shapePool: expressiveMorphShapes,
+    durationMs: 260,
+  })
+
+  useEffect(() => {
+    const intervalId = window.setInterval(() => {
+      animateBrandRandom()
+    }, 3000)
+
+    return () => {
+      window.clearInterval(intervalId)
+    }
+  }, [animateBrandRandom])
 
   return (
     <div className="app-shell">
-      <div className="page-chroma page-chroma-left" aria-hidden="true" />
-      <div className="page-chroma page-chroma-right" aria-hidden="true" />
-
       <header className="site-header">
         <Link className="brand-lockup glass-panel" to="/">
           <span className="brand-mark-wrap">
-            <ShapeGlyph shape={brandShape} accent={brandAccent} className="brand-mark-shape" />
+            <MorphShape path={brandPath} accent={brandAccent} className="brand-mark-shape" />
           </span>
           <span className="brand-copy">
             <strong>Shape Community App</strong>
@@ -276,10 +274,8 @@ function AppShell() {
         </Link>
 
         <nav className="site-nav glass-panel" aria-label="Primary">
-          <NavLink to="/" end>
-            Home
-          </NavLink>
-          <NavLink to="/shapes">Shapes</NavLink>
+          <ShapeMorphNavLink to="/" end label="Home" accent="blue" />
+          <ShapeMorphNavLink to="/shapes" label="Shapes" accent="orange" />
         </nav>
       </header>
 

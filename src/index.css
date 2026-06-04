@@ -168,7 +168,7 @@ svg {
 
 .brand-lockup,
 .site-nav,
-.morph-action,
+.shape-button,
 .inline-link {
   transition:
     transform 180ms ease-in-out,
@@ -212,6 +212,34 @@ h3 {
   font-family: 'Fredoka', ui-rounded, system-ui, sans-serif;
 }
 
+.accent-heading {
+  color: #111111;
+}
+
+.accent-heading-blue {
+  color: var(--blue);
+}
+
+.accent-heading-orange {
+  color: var(--orange);
+}
+
+.accent-heading-red {
+  color: var(--red);
+}
+
+.accent-heading-green {
+  color: var(--green);
+}
+
+.accent-heading-purple {
+  color: var(--purple);
+}
+
+.accent-heading-yellow {
+  color: #c79000;
+}
+
 .brand-copy strong {
   font-size: 1.1rem;
   font-weight: 600;
@@ -231,20 +259,7 @@ h3 {
 }
 
 .site-nav a {
-  border-radius: var(--radius-sm);
-  padding: 10px 14px;
-  color: var(--text-body);
   text-decoration: none;
-  font-weight: 700;
-}
-
-.site-nav a:hover {
-  background: rgba(255, 255, 255, 0.5);
-}
-
-.site-nav a.active {
-  background: rgba(22, 119, 255, 0.12);
-  color: var(--blue);
 }
 
 .page-stack {
@@ -352,42 +367,49 @@ p {
   font-size: 1.08rem;
 }
 
-.morph-action-row {
+.shape-button-row {
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 12px;
 }
 
-.morph-action-row-compact {
-  max-width: 48rem;
+.shape-button-row-compact {
+  max-width: 16rem;
 }
 
-.morph-action {
-  display: grid;
-  grid-template-columns: 88px minmax(0, 1fr);
-  align-items: center;
-  gap: 14px;
-  padding: 14px;
-  border: 1px solid rgba(255, 255, 255, 0.72);
+.shape-button {
+  position: relative;
+  display: inline-grid;
+  place-items: center;
+  width: 100%;
+  aspect-ratio: 1;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.52);
   text-decoration: none;
+  color: #111111;
+  overflow: visible;
 }
 
-.morph-action:hover,
-.morph-action:focus-visible {
+.shape-button-hero {
+  max-width: 10rem;
+}
+
+.shape-button-nav {
+  width: 5rem;
+}
+
+.shape-button:hover,
+.shape-button:focus-visible {
+  transform: translateY(-1px);
   box-shadow: 0 18px 34px rgba(180, 133, 74, 0.14);
 }
 
-.morph-button {
-  position: relative;
-  width: 88px;
-  aspect-ratio: 1;
-  display: inline-grid;
-  place-items: center;
+.morph-shape {
+  display: block;
+  width: 100%;
+  height: 100%;
 }
 
-.morph-button-surface {
+.shape-button-surface {
   position: absolute;
   inset: 0;
   width: 100%;
@@ -395,42 +417,25 @@ p {
   filter: drop-shadow(0 12px 24px rgba(180, 133, 74, 0.16));
 }
 
-.morph-button-surface path {
-  fill: color-mix(in srgb, var(--accent-color) 74%, white);
+.shape-button-surface path,
+.morph-shape path {
+  fill: color-mix(in srgb, var(--accent-color) 54%, white);
   stroke: rgba(255, 255, 255, 0.92);
   stroke-width: 2.5;
   stroke-linejoin: round;
 }
 
-.morph-button-label {
+.shape-button-label {
   position: relative;
   z-index: 1;
   width: 72%;
   text-align: center;
-  color: #20170f;
+  color: #111111;
   font-family: 'Fredoka', ui-rounded, system-ui, sans-serif;
-  font-size: 1rem;
+  font-size: clamp(1rem, 2vw, 1.2rem);
   font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.02em;
-}
-
-.morph-action-copy {
-  display: grid;
-  gap: 4px;
-  min-width: 0;
-}
-
-.morph-action-copy strong {
-  font-family: 'Fredoka', ui-rounded, system-ui, sans-serif;
-  font-size: 1.15rem;
-  line-height: 1.05;
-}
-
-.morph-action-copy span {
-  color: var(--text-body);
-  font-size: 0.95rem;
-  line-height: 1.35;
+  line-height: 0.95;
+  letter-spacing: -0.03em;
 }
 
 .metric-grid {
@@ -652,69 +657,7 @@ p {
 .accent-green,
 .accent-purple,
 .accent-orange {
-  box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.4),
-    0 24px 56px color-mix(in srgb, var(--accent-color) 12%, rgba(180, 133, 74, 0.12));
-}
-
-.accent-red .section-label,
-.accent-red .mono-label,
-.accent-red .inline-link,
-.accent-red.shape-glyph,
-.accent-red .metric-chip strong,
-.accent-red .spec-list strong,
-.accent-red.metric-chip strong {
-  color: var(--red);
-}
-
-.accent-yellow .section-label,
-.accent-yellow .mono-label,
-.accent-yellow .inline-link,
-.accent-yellow.shape-glyph,
-.accent-yellow .metric-chip strong,
-.accent-yellow .spec-list strong,
-.accent-yellow.metric-chip strong {
-  color: #c79000;
-}
-
-.accent-blue .section-label,
-.accent-blue .mono-label,
-.accent-blue .inline-link,
-.accent-blue.shape-glyph,
-.accent-blue .metric-chip strong,
-.accent-blue .spec-list strong,
-.accent-blue.metric-chip strong {
-  color: var(--blue);
-}
-
-.accent-green .section-label,
-.accent-green .mono-label,
-.accent-green .inline-link,
-.accent-green.shape-glyph,
-.accent-green .metric-chip strong,
-.accent-green .spec-list strong,
-.accent-green.metric-chip strong {
-  color: var(--green);
-}
-
-.accent-purple .section-label,
-.accent-purple .mono-label,
-.accent-purple .inline-link,
-.accent-purple.shape-glyph,
-.accent-purple .metric-chip strong,
-.accent-purple .spec-list strong,
-.accent-purple.metric-chip strong {
-  color: var(--purple);
-}
-
-.accent-orange .section-label,
-.accent-orange .mono-label,
-.accent-orange .inline-link,
-.accent-orange.shape-glyph,
-.accent-orange .metric-chip strong,
-.accent-orange .spec-list strong,
-.accent-orange.metric-chip strong {
-  color: var(--orange);
+  box-shadow: none;
 }
 
 .brand-mark-shape {
@@ -730,7 +673,7 @@ p {
 
   .hero-shell,
   .shape-layout,
-  .morph-action-row,
+  .shape-button-row,
   .card-grid,
   .card-grid.two-up {
     grid-template-columns: 1fr;
@@ -755,17 +698,11 @@ p {
 
   .site-nav a {
     flex: 1 1 0;
-    text-align: center;
   }
 
-  .morph-action {
-    grid-template-columns: 1fr;
-    justify-items: center;
-    text-align: center;
-  }
-
-  .morph-action-copy {
-    justify-items: center;
+  .shape-button-nav {
+    width: 100%;
+    max-width: 6rem;
   }
 
   .viewer-stage {
@@ -794,7 +731,7 @@ p {
     transition-duration: 0.01ms !important;
   }
 
-  .morph-action:hover,
+  .shape-button:hover,
   .brand-lockup:hover {
     transform: none;
   }
