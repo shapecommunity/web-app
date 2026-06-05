@@ -11,8 +11,8 @@
     "typecheck": "tsc -b",
     "test": "vitest run",
     "test:watch": "vitest",
-    "test:unit": "vitest run \"src/**/*.unit.test.ts\" \"src/**/*.unit.test.tsx\"",
-    "test:ui": "vitest run \"src/**/*.ui.test.tsx\" \"src/**/*.routes.test.tsx\"",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:ui": "vitest run --config vitest.ui.config.ts",
     "test:coverage": "vitest run --coverage",
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui"
