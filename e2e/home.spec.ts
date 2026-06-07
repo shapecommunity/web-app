@@ -7,7 +7,7 @@ test('home page renders primary content and nav', async ({ page }) => {
   await expect(page.getByRole('link', { name: 'Home' })).toBeVisible()
   await expect(page.getByRole('link', { name: 'Discover' }).first()).toBeVisible()
   await expect(page.getByRole('link', { name: 'Meta' }).first()).toBeVisible()
-  await expect(page.getByText(/Version 0\.1\.0/)).toBeVisible()
+  await expect(page.getByText(/Version 0\.2\.0/)).toBeVisible()
 })
 
 test('unknown route shows the not found page', async ({ page }) => {

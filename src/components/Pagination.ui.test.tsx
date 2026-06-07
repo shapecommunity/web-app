@@ -47,6 +47,31 @@ describe('Pagination', () => {
     expect(shapeMorphMocks.animateRandom).toHaveBeenCalled()
   })
 
+  it('limits the numeric page window to five buttons near the start', () => {
+    render(<Pagination currentPage={1} totalPages={10} onPageChange={vi.fn()} />)
+
+    expect(screen.getByRole('button', { name: '1' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '6' })).not.toBeInTheDocument()
+  })
+
+  it('slides the numeric page window around the current page', () => {
+    render(<Pagination currentPage={6} totalPages={10} onPageChange={vi.fn()} />)
+
+    expect(screen.getByRole('button', { name: '4' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '8' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '3' })).not.toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '9' })).not.toBeInTheDocument()
+  })
+
+  it('anchors the numeric page window to the end near the last page', () => {
+    render(<Pagination currentPage={10} totalPages={10} onPageChange={vi.fn()} />)
+
+    expect(screen.getByRole('button', { name: '6' })).toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '10' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '5' })).not.toBeInTheDocument()
+  })
+
   it('disables prev and next at the range boundaries', () => {
     const { rerender } = render(<Pagination currentPage={1} totalPages={3} onPageChange={vi.fn()} />)
 

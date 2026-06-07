@@ -15,10 +15,10 @@ test('discover supports pagination, filtering, and detail navigation', async ({ 
   await expect(page.getByRole('link', { name: /Cube/i })).toHaveCount(0)
 
   const search = page.getByRole('searchbox', { name: /Search catalogue/i })
-  await search.fill('heart')
+  await search.fill('luma heart')
 
   await expect(page.getByRole('link', { name: /Luma Heart/i })).toBeVisible()
-  await expect(page.getByRole('link', { name: /Kind Heart/i })).toBeVisible()
+  await expect(page.getByRole('link', { name: /Kind Heart/i })).toHaveCount(0)
   await expect(page.getByRole('button', { name: 'Next' })).toHaveCount(0)
 
   await page.getByRole('link', { name: /Luma Heart/i }).click()

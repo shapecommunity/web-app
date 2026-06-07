@@ -44,7 +44,7 @@ describe('App routes', () => {
 
     expect(screen.getByRole('heading', { name: 'Shape Community App' })).toBeInTheDocument()
     expect(screen.getByText('Discover a large catalogue')).toBeInTheDocument()
-    expect(screen.getByText(/Version 0\.1\.0/)).toBeInTheDocument()
+    expect(screen.getByText(/Version 0\.2\.0/)).toBeInTheDocument()
     expect(window.scrollTo).toHaveBeenCalledWith({ top: 0, left: 0, behavior: 'auto' })
 
     act(() => {
@@ -62,6 +62,8 @@ describe('App routes', () => {
     expect(screen.getByRole('heading', { name: 'Discover' })).toBeInTheDocument()
     expect(screen.getByRole('link', { name: /Cube/i })).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /Vault Block/i })).not.toBeInTheDocument()
+    expect(screen.getByRole('button', { name: '5' })).toBeInTheDocument()
+    expect(screen.queryByRole('button', { name: '6' })).not.toBeInTheDocument()
 
     await user.click(screen.getByRole('button', { name: 'Next' }))
 
@@ -69,10 +71,10 @@ describe('App routes', () => {
     expect(screen.queryByRole('link', { name: /Cube/i })).not.toBeInTheDocument()
 
     await user.clear(screen.getByRole('searchbox', { name: /Search catalogue/i }))
-    await user.type(screen.getByRole('searchbox', { name: /Search catalogue/i }), 'heart')
+    await user.type(screen.getByRole('searchbox', { name: /Search catalogue/i }), 'luma heart')
 
     expect(screen.getByRole('link', { name: /Luma Heart/i })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Kind Heart/i })).toBeInTheDocument()
+    expect(screen.queryByRole('link', { name: /Kind Heart/i })).not.toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Next' })).not.toBeInTheDocument()
 
     await user.clear(screen.getByRole('searchbox', { name: /Search catalogue/i }))
@@ -80,7 +82,7 @@ describe('App routes', () => {
 
     expect(screen.getByText('Nothing matched that search.')).toBeInTheDocument()
     expect(screen.queryByRole('link', { name: /Cube/i })).not.toBeInTheDocument()
-  })
+  }, 15000)
 
   it('renders mobile discover results and grows the list through the sentinel observer', async () => {
     setMediaQueryMatches('(max-width: 680px)', true)

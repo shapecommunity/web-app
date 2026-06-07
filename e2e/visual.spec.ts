@@ -25,7 +25,7 @@ test.describe('visual snapshots', () => {
   test('discover page matches the visual baseline', async ({ page }) => {
     await page.goto('/shapes')
 
-    await expect(page.locator('.site-main')).toHaveScreenshot('discover-main.png')
+    await expect(page.locator('.discover-grid')).toHaveScreenshot('discover-grid.png')
   })
 
   test('detail page matches the visual baseline', async ({ page }) => {

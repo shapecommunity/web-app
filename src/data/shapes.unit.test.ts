@@ -3,8 +3,19 @@ import type { ShapeRecord } from './shapes'
 import { getShapeBySlug, shapes } from './shapes'
 
 describe('shapes data', () => {
+  it('includes the temporary 10000-shape load-test expansion', () => {
+    expect(shapes).toHaveLength(10012)
+  })
+
   it('returns the matching shape by slug', () => {
     expect(getShapeBySlug('cube')).toMatchObject({ slug: 'cube', name: 'Cube' })
+  })
+
+  it('returns generated shapes by slug as well', () => {
+    expect(getShapeBySlug('synthetic-shape-10000')).toMatchObject({
+      slug: 'synthetic-shape-10000',
+      name: 'Synthetic Shape 10000',
+    })
   })
 
   it('returns undefined for an unknown slug', () => {
