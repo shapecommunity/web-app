@@ -59,7 +59,11 @@ export function Pagination({ currentPage, totalPages, onPageChange }: Pagination
     return null
   }
 
-  const pages = Array.from({ length: totalPages }, (_, index) => index + 1)
+  const maxVisiblePages = 5
+  const halfWindow = Math.floor(maxVisiblePages / 2)
+  const startPage = Math.max(1, Math.min(currentPage - halfWindow, totalPages - maxVisiblePages + 1))
+  const endPage = Math.min(totalPages, startPage + maxVisiblePages - 1)
+  const pages = Array.from({ length: endPage - startPage + 1 }, (_, index) => startPage + index)
 
   return (
     <nav className="pagination" aria-label="Discover pagination">
