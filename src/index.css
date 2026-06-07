@@ -528,6 +528,27 @@ p {
   border: 1px solid var(--panel-border);
 }
 
+.shape-transition-preview {
+  display: grid;
+  place-items: center;
+}
+
+.detail-page-transitioning .detail-preview-shell {
+  opacity: 0;
+}
+
+.detail-title-entrance,
+.detail-copy-entrance,
+.detail-content-entrance {
+  opacity: 0;
+}
+
+.detail-page-content-visible .detail-title-entrance,
+.detail-page-content-visible .detail-copy-entrance,
+.detail-page-content-visible .detail-content-entrance {
+  opacity: 1;
+}
+
 .shape-card-preview {
   width: 7.75rem;
   height: 7.75rem;
@@ -648,6 +669,39 @@ p {
   transform: translate(-50%, -50%);
 }
 
+.stage-shape-fill {
+  width: 100%;
+  height: 100%;
+}
+
+.shape-transition-overlay {
+  position: fixed;
+  z-index: 9999;
+  pointer-events: none;
+}
+
+.shape-transition-overlay-preview-shell {
+  width: 100%;
+  height: 100%;
+  display: grid;
+  place-items: center;
+  border-radius: var(--radius-md);
+  background: #f7f5f0;
+  border: 1px solid var(--panel-border);
+}
+
+.shape-transition-overlay-shape {
+  width: 78%;
+  height: 78%;
+}
+
+.shape-transition-overlay-shape path {
+  fill: var(--transition-accent, #1677ff);
+  stroke: rgba(255, 255, 255, 0.92);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
 .spec-list {
   display: grid;
   gap: 12px;
@@ -666,6 +720,10 @@ p {
 .footer-panel {
   display: grid;
   gap: 8px;
+}
+
+.footer-meta {
+  color: var(--text-muted);
 }
 
 .inline-link {
@@ -785,6 +843,85 @@ p {
   height: 54px;
 }
 
+.detail-hero-entrance,
+.detail-title-entrance,
+.detail-copy-entrance,
+.detail-content-entrance,
+.detail-preview-entrance {
+  animation-duration: 320ms;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+
+.detail-hero-entrance {
+  animation-name: detailSectionIn;
+}
+
+.detail-title-entrance,
+.detail-copy-entrance,
+.detail-content-entrance {
+  animation-name: detailFadeIn;
+}
+
+.detail-preview-entrance {
+  animation-name: detailPreviewIn;
+}
+
+.detail-content-entrance-delay-1 {
+  animation-delay: 70ms;
+}
+
+.detail-content-entrance-delay-2 {
+  animation-delay: 120ms;
+}
+
+@keyframes detailSectionIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes detailPreviewIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.78);
+  }
+
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
+}
+
+::view-transition-group(*) {
+  animation-duration: 320ms;
+  animation-timing-function: ease-in-out;
+}
+
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 220ms;
+  animation-timing-function: ease-in-out;
+}
+
 @media (max-width: 980px) {
   .site-header {
     align-items: stretch;
@@ -834,6 +971,11 @@ p {
   .shape-button-nav {
     width: 100%;
     max-width: 6.75rem;
+  }
+
+  .discover-grid,
+  .card-grid.three-up {
+    grid-template-columns: 1fr;
   }
 
   .shape-button-nav .shape-button-label {
@@ -901,5 +1043,13 @@ p {
   .shape-button:hover,
   .brand-lockup:hover {
     transform: none;
+  }
+
+  .detail-hero-entrance,
+  .detail-title-entrance,
+  .detail-copy-entrance,
+  .detail-content-entrance,
+  .detail-preview-entrance {
+    animation: none !important;
   }
 }

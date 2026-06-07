@@ -7,12 +7,17 @@ import { Pagination } from './components/Pagination'
 import { getShapeBySlug, shapes, type ShapeRecord } from './data/shapes'
 import { useShapeMorph } from './hooks/useShapeMorph'
 import { expressiveMorphShapes, getRandomAccent, morphShapePaths, type AccentName } from './lib/shapePaths'
+import { getShapeTransitionOverlay } from './lib/shapeCardTransition'
+import appVersion from '../VERSION?raw'
+
+const APP_VERSION = appVersion.trim()
+const BUILD_NUMBER = '1'
 
 function randomAccent() {
   return getRandomAccent()
 }
 
-function AccentHeading({ children, accent, level = 1 }: { children: ReactNode; accent: string; level?: 1 | 2 | 3 }) {
+export function AccentHeading({ children, accent, level = 1 }: { children: ReactNode; accent: string; level?: 1 | 2 | 3 }) {
   const className = `accent-heading accent-heading-${accent}`
 
   if (level === 2) {
@@ -151,7 +156,7 @@ function HomePage() {
   )
 }
 
-function ShapesPage() {
+export function ShapesPage() {
   const [query, setQuery] = useState('')
   const [page, setPage] = useState(1)
   const [isMobile, setIsMobile] = useState(() =>
@@ -270,9 +275,67 @@ function ShapesPage() {
   )
 }
 
-function ShapeDetailPage() {
+export function ShapeDetailPage() {
   const { slug } = useParams()
   const shape = slug ? getShapeBySlug(slug) : undefined
+  const previewRef = useRef<HTMLDivElement | null>(null)
+  const [isTransitioningIn, setIsTransitioningIn] = useState(false)
+  const [shouldRevealDetails, setShouldRevealDetails] = useState(true)
+
+  useEffect(() => {
+    if (!shape || !previewRef.current) {
+      return
+    }
+
+    const previewOverlay = getShapeTransitionOverlay(shape.slug)
+
+    if (!previewOverlay) {
+      return
+    }
+
+    const previewTarget = previewRef.current.getBoundingClientRect()
+
+    let previewAnimation: Animation | null = null
+
+    const frameId = window.requestAnimationFrame(() => {
+      setShouldRevealDetails(false)
+      setIsTransitioningIn(true)
+
+      previewAnimation = previewOverlay.animate(
+        [
+          {
+            left: previewOverlay.style.left,
+            top: previewOverlay.style.top,
+            width: previewOverlay.style.width,
+            height: previewOverlay.style.height,
+            opacity: 0.95,
+          },
+          {
+            left: `${previewTarget.left}px`,
+            top: `${previewTarget.top}px`,
+            width: `${previewTarget.width}px`,
+            height: `${previewTarget.height}px`,
+            opacity: 1,
+          },
+        ],
+        { duration: 420, easing: 'ease-in-out', fill: 'forwards' },
+      )
+
+      previewAnimation.finished.finally(() => {
+        previewOverlay.remove()
+        setIsTransitioningIn(false)
+        setShouldRevealDetails(true)
+      })
+    })
+
+    return () => {
+      window.cancelAnimationFrame(frameId)
+      previewAnimation?.cancel()
+      previewOverlay.remove()
+      setIsTransitioningIn(false)
+      setShouldRevealDetails(true)
+    }
+  }, [shape])
 
   if (!shape) {
     return (
@@ -290,21 +353,28 @@ function ShapeDetailPage() {
   }
 
   return (
-    <section className="page-stack">
+    <section className={`page-stack detail-page${isTransitioningIn ? ' detail-page-transitioning' : ''}${shouldRevealDetails ? ' detail-page-content-visible' : ''}`}>
       <section className="shape-layout">
-        <article className="glass-panel viewer-stage accent-yellow">
+        <article className="glass-panel viewer-stage accent-yellow detail-hero-entrance">
           <div className="stage-header">
             <SectionLabel>Preview</SectionLabel>
             <span className="mono-label">{shape.geometry}</span>
           </div>
-          <AccentHeading accent={shape.previewAccent}>{shape.name}</AccentHeading>
-          <p className="lead-copy">{shape.description}</p>
-          <div className="viewer-placeholder">
-            <MorphShape path={morphShapePaths[shape.previewShape]} accent={shape.previewAccent} className="stage-shape stage-shape-large" />
+          <div className="detail-title-entrance">
+            <AccentHeading accent={shape.previewAccent}>{shape.name}</AccentHeading>
+          </div>
+          <p className="lead-copy detail-copy-entrance">{shape.description}</p>
+          <div ref={previewRef} className="viewer-placeholder detail-preview-shell">
+            <div
+              className="shape-transition-preview stage-shape stage-shape-large detail-preview-entrance"
+              style={{ viewTransitionName: `shape-preview-${shape.slug}` }}
+            >
+              <MorphShape path={morphShapePaths[shape.previewShape]} accent={shape.previewAccent} className="stage-shape-fill" />
+            </div>
           </div>
         </article>
 
-        <div className="shape-info-column">
+        <div className="shape-info-column detail-content-entrance detail-content-entrance-delay-1">
           <article className="glass-panel accent-green">
             <SectionLabel>Compatibility</SectionLabel>
             <h3>Future fit summary</h3>
@@ -317,7 +387,7 @@ function ShapeDetailPage() {
         </div>
       </section>
 
-      <section className="card-grid three-up">
+      <section className="card-grid three-up detail-content-entrance detail-content-entrance-delay-2">
         <article className="glass-panel accent-green">
           <span className="mono-label">Tags</span>
           <h3>Shape family</h3>
@@ -435,6 +505,7 @@ function AppShell() {
       <footer className="site-footer">
         <div className="glass-panel footer-panel">
           <p>Frontend foundation for a public shape catalogue, future compatibility experiments, and later popularity tracking.</p>
+          <p className="mono-label footer-meta">Version {APP_VERSION} · Build {BUILD_NUMBER}</p>
         </div>
       </footer>
     </div>

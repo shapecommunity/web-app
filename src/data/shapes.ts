@@ -1,4 +1,5 @@
 import type { AccentName, MorphShapeName } from '../lib/shapePaths'
+import { generatedShapes } from './generatedShapes'
 
 export type ShapeRecord = {
   slug: string
@@ -15,7 +16,7 @@ export type ShapeRecord = {
   compatibilitySummary: string
 }
 
-export const shapes: ShapeRecord[] = [
+const baseShapes: ShapeRecord[] = [
   {
     slug: 'cube',
     name: 'Cube',
@@ -197,6 +198,8 @@ export const shapes: ShapeRecord[] = [
     compatibilitySummary: 'Great future example for elongated fit comparisons.',
   },
 ]
+
+export const shapes: ShapeRecord[] = [...baseShapes, ...generatedShapes]
 
 export function getShapeBySlug(slug: string) {
   return shapes.find((shape) => shape.slug === slug)
